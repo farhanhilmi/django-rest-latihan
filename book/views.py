@@ -2,67 +2,67 @@ from rest_framework import status
 from rest_framework.views import APIView
 
 from django_rest.utils import writeResponse
-from .serializers import AccordionSerializer
-from .models import Accordion
+from .serializers import BookSerializer
+from .models import Book
 
 
-class AccordionApiView(APIView):
-    # serializer_class = AccordionSerializer
-
+class BookApiView(APIView):
     def get(self, request, *args, **kwargs):
-        accordions = Accordion.objects.filter()
+        books = Book.objects.filter()
 
-        serializer = AccordionSerializer(accordions, many=True)
+        serializer = BookSerializer(
+            books, many=True, context={"request": request})
         return writeResponse(code=status.HTTP_200_OK, status="OK", data=serializer.data)
 
     def post(self, request, *args, **kwargs):
         data = {
             'title': request.data.get('title'),
-            'deskripsi': request.data.get('deskripsi'),
+            'author': request.data.get('author'),
+            'description': request.data.get('description'),
+            'image': request.data['image'],
         }
 
-        serializer = AccordionSerializer(data=data)
+        serializer = BookSerializer(data=data, context={"request": request})
         if serializer.is_valid():
             serializer.save()
             return writeResponse(code=status.HTTP_201_CREATED, status="OK", data=serializer.data)
-            # return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return writeResponse(code=status.HTTP_400_BAD_REQUEST, status="BAD REQUEST", data=serializer.errors)
 
 
-class AccordionIdApiView(APIView):
-    def get_object(self, accordion_id):
+class BookApiIdView(APIView):
+    def get_object(self, book_id):
         try:
-            return Accordion.objects.get(id_accordion=accordion_id)
-        except Accordion.DoesNotExist:
+            return Book.objects.get(id_book=book_id)
+        except Book.DoesNotExist:
             return None
 
-    def get(self, request, accordion_id, *args, **kwargs):
-        accordion_instance = self.get_object(accordion_id)
-        if not accordion_instance:
+    def get(self, request, book_id, *args, **kwargs):
+        book_instance = self.get_object(book_id)
+        if not book_instance:
             return writeResponse(code=status.HTTP_404_NOT_FOUND, status="Object not found")
 
-        serializer = AccordionSerializer(accordion_instance)
+        serializer = BookSerializer(
+            book_instance, context={"request": request})
         return writeResponse(code=status.HTTP_200_OK, status="OK", data=serializer.data)
 
-    def put(self, request, accordion_id, *args, **kwargs):
-        accordion_instance = self.get_object(accordion_id)
-        if not accordion_instance:
+    def put(self, request, book_id, *args, **kwargs):
+        book_instance = self.get_object(book_id)
+        if not book_instance:
             return writeResponse(code=status.HTTP_404_NOT_FOUND, status="Object not found")
 
-        serializer = AccordionSerializer(
-            instance=accordion_instance, data=request.data, partial=True)
+        serializer = BookSerializer(
+            instance=book_instance, data=request.data, partial=True, context={"request": request})
         if serializer.is_valid():
             serializer.save()
             return writeResponse(code=status.HTTP_200_OK, status="OK", data=serializer.data)
 
         return writeResponse(code=status.HTTP_400_BAD_REQUEST, status="BAD REQUEST", data=serializer.errors)
 
-    def delete(self, request, accordion_id, *args, **kwargs):
-        accordion_instance = self.get_object(accordion_id)
-        if not accordion_instance:
+    def delete(self, request, book_id, *args, **kwargs):
+        book_instance = self.get_object(book_id)
+        if not book_instance:
             return writeResponse(code=status.HTTP_404_NOT_FOUND, status="Object not found")
 
-        accordion_instance.delete()
-
+        book_instance.delete()
         return writeResponse(code=status.HTTP_200_OK, status="OK")

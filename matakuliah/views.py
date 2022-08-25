@@ -54,17 +54,8 @@ class MataKuliahIdApiView(APIView):
         if not matkul_instance:
             return writeResponse(code=status.HTTP_404_NOT_FOUND, status="Object not found")
 
-        data = {
-            'matkul_name': request.data.get('matkul_name'),
-            'nama_dosen': request.data.get('nama_dosen'),
-            'jumlah_sks': request.data.get('jumlah_sks'),
-            'ruangan': request.data.get('ruangan'),
-            'deskripsi': request.data.get('deskripsi'),
-            'semester': request.data.get('semester'),
-        }
-
         serializer = MataKuliahSerializer(
-            instance=matkul_instance, data=data, partial=True)
+            instance=matkul_instance, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return writeResponse(code=status.HTTP_200_OK, status="OK", data=serializer.data)
