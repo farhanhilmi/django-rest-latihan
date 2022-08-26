@@ -23,11 +23,11 @@ class BookApiView(APIView):
         }
 
         serializer = BookSerializer(data=data, context={"request": request})
-        if serializer.is_valid():
-            serializer.save()
-            return writeResponse(code=status.HTTP_201_CREATED, status="OK", data=serializer.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return writeResponse(code=status.HTTP_201_CREATED, status="OK", data=serializer.data)
 
-        return writeResponse(code=status.HTTP_400_BAD_REQUEST, status="BAD REQUEST", data=serializer.errors)
+        # return writeResponse(code=status.HTTP_400_BAD_REQUEST, status="BAD REQUEST", data=serializer.errors)
 
 
 class BookApiIdView(APIView):
@@ -60,7 +60,7 @@ class BookApiIdView(APIView):
         return writeResponse(code=status.HTTP_400_BAD_REQUEST, status="BAD REQUEST", data=serializer.errors)
 
     def delete(self, request, book_id, *args, **kwargs):
-        book_instance = self.get_object(book_id)
+        book_instance = self.get_objects(book_id)
         if not book_instance:
             return writeResponse(code=status.HTTP_404_NOT_FOUND, status="Object not found")
 

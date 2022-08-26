@@ -19,7 +19,7 @@ class BookSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         deleteFile(instance.image.path)
         return super().update(instance, validated_data)
-    
+
     def delete(self, instance):
         deleteFile(instance.image.path)
 
