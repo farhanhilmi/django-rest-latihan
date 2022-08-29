@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.views import APIView
 
-from django_rest.utils import writeResponse
+from utils.helper import writeResponse
 from .serializers import AccordionSerializer
 from .models import Accordion
 
@@ -13,7 +13,7 @@ class AccordionApiView(APIView):
         accordions = Accordion.objects.filter()
 
         serializer = AccordionSerializer(accordions, many=True)
-        return writeResponse(code=status.HTTP_200_OK, status="OK", data=serializer.data)
+        return writeResponse(status_code=status.HTTP_200_OK, message="OK", data=serializer.data)
 
     def post(self, request, *args, **kwargs):
         data = {
@@ -22,12 +22,10 @@ class AccordionApiView(APIView):
         }
 
         serializer = AccordionSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return writeResponse(code=status.HTTP_201_CREATED, status="OK", data=serializer.data)
-            # return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return writeResponse(code=status.HTTP_400_BAD_REQUEST, status="BAD REQUEST", data=serializer.errors)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return writeResponse(status_code=status.HTTP_201_CREATED, message="OK", data=serializer.data)
+        # return Response(serializer.data, message=status.HTTP_201_CREATED)
 
 
 class AccordionIdApiView(APIView):
@@ -40,29 +38,27 @@ class AccordionIdApiView(APIView):
     def get(self, request, accordion_id, *args, **kwargs):
         accordion_instance = self.get_object(accordion_id)
         if not accordion_instance:
-            return writeResponse(code=status.HTTP_404_NOT_FOUND, status="Object not found")
+            return writeResponse(status_code=status.HTTP_404_NOT_FOUND, message="Object not found")
 
         serializer = AccordionSerializer(accordion_instance)
-        return writeResponse(code=status.HTTP_200_OK, status="OK", data=serializer.data)
+        return writeResponse(status_code=status.HTTP_200_OK, message="OK", data=serializer.data)
 
     def put(self, request, accordion_id, *args, **kwargs):
         accordion_instance = self.get_object(accordion_id)
         if not accordion_instance:
-            return writeResponse(code=status.HTTP_404_NOT_FOUND, status="Object not found")
+            return writeResponse(status_code=status.HTTP_404_NOT_FOUND, message="Object not found")
 
         serializer = AccordionSerializer(
             instance=accordion_instance, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return writeResponse(code=status.HTTP_200_OK, status="OK", data=serializer.data)
-
-        return writeResponse(code=status.HTTP_400_BAD_REQUEST, status="BAD REQUEST", data=serializer.errors)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return writeResponse(status_code=status.HTTP_200_OK, message="OK", data=serializer.data)
 
     def delete(self, request, accordion_id, *args, **kwargs):
         accordion_instance = self.get_object(accordion_id)
         if not accordion_instance:
-            return writeResponse(code=status.HTTP_404_NOT_FOUND, status="Object not found")
+            return writeResponse(status_code=status.HTTP_404_NOT_FOUND, message="Object not found")
 
         accordion_instance.delete()
 
-        return writeResponse(code=status.HTTP_200_OK, status="OK")
+        return writeResponse(status_code=status.HTTP_200_OK, message="OK")

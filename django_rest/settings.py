@@ -54,7 +54,9 @@ INSTALLED_APPS = [
     # App
     'accordion.apps.AccordionConfig',
     'matakuliah.apps.MatakuliahConfig',
-    'book.apps.BookConfig'
+    'book.apps.BookConfig',
+    'kegiatan.apps.KegiatanConfig',
+    'experience.apps.ExperienceConfig'
 ]
 
 MIDDLEWARE = [

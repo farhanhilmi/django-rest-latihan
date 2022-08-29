@@ -5,10 +5,6 @@ from rest_framework.views import exception_handler
 from http import HTTPStatus
 
 
-def responseInternalServerError(request):
-    return Response({"code": status.HTTP_200_OK, "status": 'INTERNAL SERVER ERROR', "data": []}, status=status.HTTP_200_OK, content_type="application/json")
-
-
 def exceptionHandler(exc, context):
     response = exception_handler(exc, context)
 

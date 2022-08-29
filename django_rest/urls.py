@@ -27,6 +27,8 @@ urlpatterns = [
     path('api/', include('accordion.urls')),
     path('api/', include('matakuliah.urls')),
     path('api/', include('book.urls')),
+    path('api/', include('kegiatan.urls')),
+    path('api/', include('experience.urls')),
 ]
 
 
