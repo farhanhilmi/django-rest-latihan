@@ -1,5 +1,7 @@
 from django.db import models
 
+from utils.helper import randomFileName
+
 # Create your models here.
 
 
@@ -12,4 +14,4 @@ class Book(models.Model):
     title = models.TextField(null=False)
     author = models.TextField(null=False)
     description = models.TextField(null=False)
-    image = models.ImageField(null=False)
+    image = models.ImageField(null=False, upload_to=randomFileName('books'))

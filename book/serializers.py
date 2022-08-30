@@ -1,7 +1,6 @@
-from django.forms import ImageField
 from rest_framework import serializers
 
-from django_rest.utils import deleteFile
+from utils.helper import deleteFile
 from .models import Book
 
 
@@ -20,8 +19,9 @@ class BookSerializer(serializers.ModelSerializer):
         deleteFile(instance.image.path)
         return super().update(instance, validated_data)
 
-    def delete(self, instance):
-        deleteFile(instance.image.path)
+    # def delete(self, instance):
+    #     print('instance.image.path', instance.image.path)
+    #     deleteFile(instance.image.path)
 
     # def get_image_url(self, book):
     #     request = self.context.get('request')

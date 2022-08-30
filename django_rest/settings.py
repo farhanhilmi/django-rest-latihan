@@ -51,10 +51,13 @@ INSTALLED_APPS = [
 
     # Django apps
     'rest_framework',
+    'corsheaders',
     # App
     'accordion.apps.AccordionConfig',
     'matakuliah.apps.MatakuliahConfig',
-    'book.apps.BookConfig'
+    'book.apps.BookConfig',
+    'kegiatan.apps.KegiatanConfig',
+    'experience.apps.ExperienceConfig'
 ]
 
 MIDDLEWARE = [
@@ -67,8 +70,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     # CORS
-    'corsheaders.middleware.CorsMiddleware'
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:3030',
+# ]
 
 ROOT_URLCONF = 'django_rest.urls'
 
