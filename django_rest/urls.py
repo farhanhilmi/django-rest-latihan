@@ -31,6 +31,8 @@ urlpatterns = [
     path('api/', include('experience.urls')),
     path('api/', include('users.urls')),
 
+    path('', include('frontend.urls')),
+
 
 ]
 

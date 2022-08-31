@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+<!--  -->
+{% block content %}
+<!--  -->
+<h2>Accordion</h2>
+<button
+  class="btn btn-sm btn-primary mb-4"
+  data-bs-toggle="modal"
+  data-bs-target="#addAccordionModal"
+>
+  Add Accordion
+</button>
+
+{% for item in data %}
+<div class="accordion mb-2" id="accordion{{item.id_accordion}}">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="heading{{item.id_accordion}}">
+      <button
+        class="accordion-button fw-bold"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapseOne{{item.id_accordion}}"
+        aria-expanded="true"
+        aria-controls="collapseOne{{item.id_accordion}}"
+      >
+        {{ item.title }}
+      </button>
+    </h2>
+    <div
+      id="collapseOne{{item.id_accordion}}"
+      class="accordion-collapse collapse"
+      aria-labelledby="heading{{item.id_accordion}}"
+      data-bs-parent="#accordion{{item.id_accordion}}"
+    >
+      <div class="accordion-body">
+        <div class="d-flex">
+          <button
+          class="btn btn-sm btn-warning mb-4"
+          data-bs-toggle="modal"
+          data-bs-target="#updateAccordionModal{{item.id_accordion}}"
+          >
+            Update Accordion
+          </button>
+          <a
+            href="/accordion/delete/{{ item.id_accordion }}"
+            class="btn btn-sm btn-danger mb-4 ms-2"
+          >
+            Delete
+          </a>
+        </div>
+        <p>{{ item.deskripsi }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Update-->
+<div
+  class="modal fade"
+  id="updateAccordionModal{{item.id_accordion}}"
+  tabindex="-1"
+  aria-labelledby="updateAccordionLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateAccordionLabel">Update accordion</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form action="/accordion/update/{{item.id_accordion}}" method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" value="{{ item.title }}" id="title" name="title" />
+          </div>
+          <div class="mb-3">
+            <label for="deskripsi" class="form-label">Deskripsi</label>
+            <textarea
+              class="form-control"
+              id="deskripsi"
+              name="deskripsi"
+            />{{ item.deskripsi }}</textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-sm btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% comment %} END MODAL {% endcomment %}
+
+{% endfor %}
+
+<!-- Modal Add-->
+<div
+  class="modal fade"
+  id="addAccordionModal"
+  tabindex="-1"
+  aria-labelledby="addAccordionLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addAccordionLabel">Add new accordion</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form action="/accordion/add" method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" />
+          </div>
+          <div class="mb-3">
+            <label for="deskripsi" class="form-label">Deskripsi</label>
+            <textarea
+              class="form-control"
+              id="deskripsi"
+              name="deskripsi"
+            /></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-sm btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- end content -->
+{% endblock content %}

@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import datetime
 from pathlib import Path
 import os
+from django.contrib import messages
 
 import environ
 
@@ -39,6 +40,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
 
 # Application definition
 
@@ -60,6 +68,7 @@ INSTALLED_APPS = [
     'kegiatan.apps.KegiatanConfig',
     'experience.apps.ExperienceConfig',
     'users.apps.UsersConfig',
+    'frontend.apps.FrontendConfig',
 ]
 
 MIDDLEWARE = [
