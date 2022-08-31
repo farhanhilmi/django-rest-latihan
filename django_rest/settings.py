@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import datetime
 from pathlib import Path
 import os
 
@@ -57,7 +58,8 @@ INSTALLED_APPS = [
     'matakuliah.apps.MatakuliahConfig',
     'book.apps.BookConfig',
     'kegiatan.apps.KegiatanConfig',
-    'experience.apps.ExperienceConfig'
+    'experience.apps.ExperienceConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -135,8 +137,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "utils.exceptions.exceptionHandler",
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
 }
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -159,3 +168,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Custom user model
+# AUTH_PROFILE_MODULE = 'users.MyUser'
+# AUTH_USER_MODEL = 'users.User'

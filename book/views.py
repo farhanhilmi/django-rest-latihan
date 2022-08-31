@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 
 from utils.helper import deleteFile, writeResponse
 from .serializers import BookSerializer
@@ -7,6 +8,8 @@ from .models import Book
 
 
 class BookApiView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, *args, **kwargs):
         books = Book.objects.filter()
 
@@ -31,6 +34,8 @@ class BookApiView(APIView):
 
 
 class BookApiIdView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get_object(self, book_id):
         try:
             return Book.objects.get(id_book=book_id)

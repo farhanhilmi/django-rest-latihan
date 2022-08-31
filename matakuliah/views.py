@@ -1,5 +1,7 @@
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+
 
 from utils.helper import writeResponse
 from .serializers import MataKuliahSerializer
@@ -9,6 +11,8 @@ from .models import MataKuliah
 
 
 class MataKuliahApiView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, *args, **kwargs):
         matakuliah = MataKuliah.objects.filter()
         serializer = MataKuliahSerializer(matakuliah, many=True)
@@ -32,6 +36,8 @@ class MataKuliahApiView(APIView):
 
 
 class MataKuliahIdApiView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get_object(self, matkul_id):
         try:
             return MataKuliah.objects.get(matkul_id=matkul_id)

@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 
 from .models import Experience
 from .serializers import ExperienceSerializer
@@ -9,6 +10,8 @@ from utils.helper import writeResponse
 
 
 class ExperienceApiView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, *args, **kwargs):
         experience = Experience.objects.all()
         serializer = ExperienceSerializer(experience, many=True)
@@ -31,6 +34,8 @@ class ExperienceApiView(APIView):
 
 
 class ExperienceApiIdView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get_object(self, experience_id):
         try:
             return Experience.objects.get(id_experience=experience_id)

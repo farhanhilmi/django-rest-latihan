@@ -29,6 +29,9 @@ urlpatterns = [
     path('api/', include('book.urls')),
     path('api/', include('kegiatan.urls')),
     path('api/', include('experience.urls')),
+    path('api/', include('users.urls')),
+
+
 ]
 
 

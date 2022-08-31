@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 
 from utils.helper import writeResponse
 from .serializers import AccordionSerializer
@@ -7,6 +8,7 @@ from .models import Accordion
 
 
 class AccordionApiView(APIView):
+    permission_classes = [IsAuthenticated]
     # serializer_class = AccordionSerializer
 
     def get(self, request, *args, **kwargs):
@@ -29,6 +31,8 @@ class AccordionApiView(APIView):
 
 
 class AccordionIdApiView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get_object(self, accordion_id):
         try:
             return Accordion.objects.get(id_accordion=accordion_id)
