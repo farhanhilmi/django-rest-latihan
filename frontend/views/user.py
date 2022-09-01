@@ -31,13 +31,22 @@ def validate_login(request):
     if response.status_code == 401:
         error_msg = response.json()['details']['detail']
         messages.error(request, error_msg)
+        request.session['IS_LOGGED_IN'] = False
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     if response.status_code == 200:
-        print('access token', response.json()['access'])
         web_response = redirect('home')
         web_response.set_cookie('DJ_ACCESS_TOKEN', response.json()['access'])
+        # web_response.set_cookie('DJ_IS_LOGGED_IN', True)
+        request.session['IS_LOGGED_IN'] = True
         messages.success(request, 'Login success')
         return web_response
 
     return render(request, 'user/login.html', {'error': response.json()['details']})
+
+
+def logout(request):
+    web_response = redirect('login')
+    request.session['IS_LOGGED_IN'] = False
+    web_response.set_cookie('DJ_ACCESS_TOKEN', False)
+    return web_response

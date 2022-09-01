@@ -18,7 +18,7 @@
   <body style="background: #f7edd6">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
-        <a class="navbar-brand" href="index.html">Django</a>
+        <a class="navbar-brand" href="/">Django</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -36,10 +36,7 @@
               <a class="nav-link active" aria-current="page" href="#"></a>
             </li>
             <li class="nav-item">
-              <a
-                class="nav-link active"
-                aria-current="page"
-                href="profile/profile.html"
+              <a class="nav-link active" aria-current="page" href="/profile"
                 >Profile</a
               >
             </li>
@@ -52,10 +49,7 @@
               >
             </li>
             <li class="nav-item">
-              <a
-                class="nav-link active"
-                aria-current="page"
-                href="matkul/matkul.html"
+              <a class="nav-link active" aria-current="page" href="/matkul"
                 >Mata Kuliah</a
               >
             </li>
@@ -65,18 +59,12 @@
               >
             </li>
             <li class="nav-item">
-              <a
-                class="nav-link active"
-                aria-current="page"
-                href="kegiatan/kegiatan.html"
+              <a class="nav-link active" aria-current="page" href="/kegiatan"
                 >Kegiatan</a
               >
             </li>
             <li class="nav-item">
-              <a
-                class="nav-link active"
-                aria-current="page"
-                href="book/book.html"
+              <a class="nav-link active" aria-current="page" href="/book"
                 >Daftar Buku</a
               >
             </li>
@@ -103,9 +91,15 @@
             </li> -->
           </ul>
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            {% if request.session.IS_LOGGED_IN %}
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#">Login</a>
+              <a class="nav-link" aria-current="page" href="/logout">Logout</a>
             </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/login">Login</a>
+            </li>
+            {% endif %}
           </ul>
         </div>
       </div>

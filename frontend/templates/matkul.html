@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+<!--  -->
+{% block content %}
+<!--  -->
+<h2>Mata Kuliah</h2>
+<button
+  class="btn btn-sm btn-primary mb-4"
+  data-bs-toggle="modal"
+  data-bs-target="#addMatkulModal"
+>
+  Add Matkul
+</button>
+
+<table class="table table-striped p-4">
+  <thead>
+    <tr>
+      <th scope="col" class="text-center">Mata Kuliah</th>
+      <th scope="col" class="text-center">Dosen</th>
+      <th scope="col" class="text-center">Jumlah SKS</th>
+      <th scope="col" class="text-center">Deskripsi</th>
+      <th scope="col" class="text-center">Semester</th>
+      <th scope="col" class="text-center">Ruang</th>
+      <th scope="col" class="text-center">Aksi</th>
+    </tr>
+  </thead>
+  <tbody id="matkul-data">
+    {% for item in data %}
+    <tr>
+      <td class="text-center">{{ item.matkul_name }}</td>
+      <td class="text-center">{{ item.nama_dosen }}</td>
+      <td class="text-center">{{ item.jumlah_sks }}</td>
+      <td class="">{{ item.deskripsi }}</td>
+      <td class="text-center">{{ item.semester }}</td>
+      <td class="text-center">{{ item.ruangan }}</td>
+      <td class="flex justify-content-center text-center">
+        <button data-bs-toggle="modal" data-bs-target="#updateMatkulModal{{ item.matkul_id }}" class="btn btn-sm btn-warning">Update</button>
+        <a href="/matkul/delete/{{ item.matkul_id }}" class="btn btn-sm btn-danger">Delete</a>
+      </td>
+    </tr> 
+    <!-- Modal update-->
+    <div
+    class="modal fade"
+    id="updateMatkulModal{{ item.matkul_id }}"
+    tabindex="-1"
+    aria-labelledby="addAccordionLabel"
+    aria-hidden="true"
+    >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addAccordionLabel">Update matkul</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <form action="/matkul/update/{{ item.matkul_id }}" method="POST">
+          {% csrf_token %}
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="matkul_name" class="form-label">Nama Mata Kuliah</label>
+              <input type="text" class="form-control" value="{{ item.matkul_name }}" id="matkul_name" name="matkul_name" />
+            </div>
+            <div class="mb-3">
+              <label for="nama_dosen" class="form-label">Nama Dosen</label>
+              <input type="text" class="form-control" value="{{ item.nama_dosen }}" id="nama_dosen" name="nama_dosen" />
+            </div>
+            <div class="mb-3">
+              <label for="jumlah_sks" class="form-label">Jumlah SKS</label>
+              <input type="number" class="form-control" value="{{ item.jumlah_sks }}" id="jumlah_sks" name="jumlah_sks" />
+            </div>
+            <div class="mb-3">
+              <label for="semester" class="form-label">Semester</label>
+              <input type="text" class="form-control" value="{{ item.semester }}" id="semester" name="semester" />
+            </div>
+            <div class="mb-3">
+              <label for="ruangan" class="form-label">Ruangan</label>
+              <input type="text" class="form-control" value="{{ item.ruangan }}" id="ruangan" name="ruangan" />
+            </div>
+            <div class="mb-3">
+              <label for="deskripsi" class="form-label">Deskripsi</label>
+              <textarea
+                class="form-control"
+                id="deskripsi"
+                name="deskripsi"
+              />{{ item.deskripsi }}</textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-sm btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    </div>
+    {% comment %} End Modal Update {% endcomment %}               
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Modal Add-->
+<div
+  class="modal fade"
+  id="addMatkulModal"
+  tabindex="-1"
+  aria-labelledby="addAccordionLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addAccordionLabel">Add new matkul</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form action="/matkul/add" method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="matkul_name" class="form-label">Nama Mata Kuliah</label>
+            <input type="text" class="form-control" id="matkul_name" name="matkul_name" />
+          </div>
+          <div class="mb-3">
+            <label for="nama_dosen" class="form-label">Nama Dosen</label>
+            <input type="text" class="form-control" id="nama_dosen" name="nama_dosen" />
+          </div>
+          <div class="mb-3">
+            <label for="jumlah_sks" class="form-label">Jumlah SKS</label>
+            <input type="number" class="form-control" id="jumlah_sks" name="jumlah_sks" />
+          </div>
+          <div class="mb-3">
+            <label for="semester" class="form-label">Semester</label>
+            <input type="text" class="form-control" id="semester" name="semester" />
+          </div>
+          <div class="mb-3">
+            <label for="ruangan" class="form-label">Ruangan</label>
+            <input type="text" class="form-control" id="ruangan" name="ruangan" />
+          </div>
+          <div class="mb-3">
+            <label for="deskripsi" class="form-label">Deskripsi</label>
+            <textarea
+              class="form-control"
+              id="deskripsi"
+              name="deskripsi"
+            /></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-sm btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- end content -->
+{% endblock content %}
