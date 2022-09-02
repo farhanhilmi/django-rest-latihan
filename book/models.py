@@ -11,7 +11,9 @@ from utils.helper import randomFileName
 
 class Book(models.Model):
     id_book = models.AutoField(primary_key=True)
+    id_book_reference = models.TextField(null=False, unique=True)
     title = models.TextField(null=False)
     author = models.TextField(null=False)
     description = models.TextField(null=False)
-    image = models.ImageField(null=False, upload_to=randomFileName('books'))
+    image = models.TextField(null=False)
+    # image = models.ImageField(null=False, upload_to=randomFileName('books'))

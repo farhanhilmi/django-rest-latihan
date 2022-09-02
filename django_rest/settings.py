@@ -35,6 +35,7 @@ MEDIA_URL = '/media/'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-%+7-$2g(2k4!7-k15sw*b80ac&h8slebz$773c78u0a11*97=q'
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -123,6 +124,11 @@ DATABASES = {
         'HOST': env('DATABASE_HOST'),
         'PORT': env('DATABASE_PORT')
     }
+}
+
+RAPID_API = {
+    'X_RapidAPI_Key': env('RAPIDAPI_KEY'),
+    'X_RapidAPI_Host': env('RAPIDAPI_HOST')
 }
 
 

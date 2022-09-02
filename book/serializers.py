@@ -15,9 +15,9 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = '__all__'
 
-    def update(self, instance, validated_data):
-        deleteFile(instance.image.path)
-        return super().update(instance, validated_data)
+    # def update(self, instance, validated_data):
+    #     deleteFile(instance.image.path)
+    #     return super().update(instance, validated_data)
 
     # def delete(self, instance):
     #     print('instance.image.path', instance.image.path)

@@ -14,18 +14,19 @@ class BookApiView(APIView):
         books = Book.objects.filter()
 
         serializer = BookSerializer(
-            books, many=True, context={"request": request})
+            books, many=True)
         return writeResponse(status_code=status.HTTP_200_OK, message="OK", data=serializer.data)
 
     def post(self, request, *args, **kwargs):
         data = {
+            'id_book_reference': request.data.get('id_book_reference'),
             'title': request.data.get('title'),
             'author': request.data.get('author'),
             'description': request.data.get('description'),
             'image': request.data['image'],
         }
 
-        serializer = BookSerializer(data=data, context={"request": request})
+        serializer = BookSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return writeResponse(status_code=status.HTTP_201_CREATED, message="OK", data=serializer.data)
@@ -48,7 +49,7 @@ class BookApiIdView(APIView):
             return writeResponse(status_code=status.HTTP_404_NOT_FOUND, message="Object not found")
 
         serializer = BookSerializer(
-            book_instance, context={"request": request})
+            book_instance)
         return writeResponse(status_code=status.HTTP_200_OK, message="OK", data=serializer.data)
 
     def put(self, request, book_id, *args, **kwargs):
@@ -57,7 +58,7 @@ class BookApiIdView(APIView):
             return writeResponse(status_code=status.HTTP_404_NOT_FOUND, message="Object not found")
 
         serializer = BookSerializer(
-            instance=book_instance, data=request.data, partial=True, context={"request": request})
+            instance=book_instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return writeResponse(status_code=status.HTTP_200_OK, message="OK", data=serializer.data)
@@ -67,6 +68,5 @@ class BookApiIdView(APIView):
         if not book_instance:
             return writeResponse(status_code=status.HTTP_404_NOT_FOUND, message="Object not found")
 
-        deleteFile(book_instance.image.path)
         book_instance.delete()
         return writeResponse(status_code=status.HTTP_200_OK, message="OK")
