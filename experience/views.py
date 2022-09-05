@@ -1,3 +1,4 @@
+from itertools import groupby
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -9,14 +10,24 @@ from utils.helper import writeResponse
 # Create your views here.
 
 
+def key_func(k):
+    return k['experience_type']
+
+
 class ExperienceApiView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         experience = Experience.objects.all()
         serializer = ExperienceSerializer(experience, many=True)
-
-        return writeResponse(status_code=status.HTTP_200_OK, message='OK', data=serializer.data)
+        response = []
+        INFO = sorted(serializer.data, key=key_func)
+        for key, value in groupby(INFO, key_func):
+            response.append({
+                'experience_type': key,
+                'content': list(value)
+            })
+        return writeResponse(status_code=status.HTTP_200_OK, message='OK', data=response)
 
     def post(self, request, *args, **kwargs):
         data = {
