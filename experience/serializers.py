@@ -33,5 +33,7 @@ class ExperienceSerializer(serializers.ModelSerializer):
 
         response['experience_type'] = ExperienceTypeSerializer(
             instance.experience_type).data['name']
+        response['experience_type_id'] = ExperienceTypeSerializer(
+            instance.experience_type).data['id']
 
         return response

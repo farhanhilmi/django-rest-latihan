@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+<!--  -->
+{% block content %}
+<!--  -->
+<h2>Experience</h2>
+<button
+  class="btn btn-sm btn-primary mb-4"
+  data-bs-toggle="modal"
+  data-bs-target="#addExperienceModal"
+>
+  Add Experience
+</button>
+
+<div class="card p-4">
+  <div class="row justify-content-center gx-5">
+      {% for item in data %}
+      <div class="col">
+        <h2># {{ item.experience_type }}</h2>
+        {% for content in item.content %}
+        <div class="mt-4">
+          <div class="d-flex justify-content-between">
+            <h4><a href="/experience/update/{{content.id_experience}}" class="text-dark">{{ content.title }}</a></h4>
+            <div>
+              <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#updateExperienceModal{{content.id_experience}}">Update</button>
+              <a class="btn btn-danger btn-sm" href="/experience/delete/{{content.id_experience}}">Delete</a>
+            </div>
+          </div>
+          <p class="mb-0">{{ content.description }}</p>
+          <small class="text-muted mt-0">{{ content.start_date }} - {{ content.end_date }}</small>
+        </div>
+
+        <!-- Modal Update-->
+        <div
+        class="modal fade"
+        id="updateExperienceModal{{content.id_experience}}"
+        tabindex="-1"
+        aria-labelledby="addAccordionLabel"
+        aria-hidden="true"
+        >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addAccordionLabel">Update experience</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <form action="/experience/update/{{content.id_experience}}" method="POST">
+              {% csrf_token %}
+              <div class="modal-body">
+                <div class="mb-3">
+                  <label for="matkul_name" class="form-label">Experience Type</label>
+                  <select name="experience_type" class="form-select" aria-label="Default select example">
+                    <option selected value="{{ content.experience_type_id }}">{{ item.experience_type }}</option>
+                    <option value="1">Personal Project</option>
+                    <option value="2">Internship</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="title" class="form-label">Title</label>
+                  <input type="text" class="form-control" value="{{ content.title }}" id="title" name="title" />
+                </div>
+                <div class="row mb-3">
+                  <div class="col">
+                    <label for="start_date" class="form-label">Start Date</label>
+                    <input type="date" class="form-control" value="{{ content.start_date }}" id="start_date" name="start_date" />
+                  </div>
+                  <div class="col">
+                    <label for="end_date" class="form-label">End Date</label>
+                    <input type="date" class="form-control" value="{{ content.end_date }}" id="end_date" name="end_date" />
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="description" class="form-label">Description</label>
+                  <textarea
+                    class="form-control"
+                    id="description"
+                    name="description"
+                  />{{ content.description }}</textarea>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+</div>
+
+<!-- Modal Add-->
+<div
+  class="modal fade"
+  id="addExperienceModal"
+  tabindex="-1"
+  aria-labelledby="addAccordionLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addAccordionLabel">Add new experience</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form action="/experience/add" method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="matkul_name" class="form-label">Experience Type</label>
+            <select name="experience_type" class="form-select" aria-label="Default select example">
+              <option value="1">Personal Project</option>
+              <option value="2">Internship</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" />
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label for="start_date" class="form-label">Start Date</label>
+              <input type="date" class="form-control" id="start_date" name="start_date" />
+            </div>
+            <div class="col">
+              <label for="end_date" class="form-label">End Date</label>
+              <input type="date" class="form-control" id="end_date" name="end_date" />
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea
+              class="form-control"
+              id="description"
+              name="description"
+            /></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-sm btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- end content -->
+{% endblock content %}

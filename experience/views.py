@@ -1,4 +1,5 @@
 from itertools import groupby
+import json
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -27,6 +28,7 @@ class ExperienceApiView(APIView):
                 'experience_type': key,
                 'content': list(value)
             })
+
         return writeResponse(status_code=status.HTTP_200_OK, message='OK', data=response)
 
     def post(self, request, *args, **kwargs):

@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import accordion, user, index, matkul, kegiatan, book
+from .views import accordion, user, index, matkul, kegiatan, book, experience
 
 urlpatterns = [
     # home
@@ -35,6 +35,12 @@ urlpatterns = [
     path('book/favorite', book.favoriteBook),
     path('book/favorite/add', book.addToFavorite),
     path('book/<int:id>/favorite/delete', book.deleteFromFavorite),
+
+    # Experience
+    path('experience', experience.index, name='experience'),
+    path('experience/add', experience.add),
+    path('experience/update/<int:id>', experience.update),
+    path('experience/delete/<int:id>', experience.delete),
 
 
 

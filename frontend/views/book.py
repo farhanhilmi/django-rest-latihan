@@ -19,7 +19,8 @@ BOOK_API = 'https://bookshelves.p.rapidapi.com/books'
 
 def index(request):
     access_token = request.COOKIES.get('DJ_ACCESS_TOKEN', False)
-    if access_token is False:
+    print('access_token', access_token)
+    if access_token == 'False':
         web_response = redirect('login')
         request.session['IS_LOGGED_IN'] = False
         error_message = 'Unauthorized'
